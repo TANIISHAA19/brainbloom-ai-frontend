@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell, ProgressBar } from "@/components/site/Shared";
-import { mockQuiz } from "@/data/mock";
+
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/quiz")({
@@ -20,13 +20,45 @@ function QuizPage() {
   const navigate = useNavigate();
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  type Question = {
+  question: string;
+  options: string[];
+  answer: string;
+};
 
-  const q = mockQuiz[idx];
-  const total = mockQuiz.length;
+const [quiz, setQuiz] = useState<Question[]>([]);
+
+useEffect(() => {
+  const savedQuiz = localStorage.getItem("generatedQuiz");
+
+  if (savedQuiz) {
+    try {
+      const parsedQuiz = JSON.parse(savedQuiz);
+      setQuiz(parsedQuiz);
+    } catch (error) {
+      console.error("Quiz parsing error:", error);
+    }
+  }
+}, []);
+
+ const q = quiz[idx];
+
+if (!q) {
+  return (
+    <PageShell>
+      <div className="text-center mt-10">
+        No quiz found. Please generate a quiz first.
+      </div>
+    </PageShell>
+  );
+}
+
+const total = quiz.length;
   const progress = ((idx + 1) / total) * 100;
-  const selected = answers[q.id];
+  const selected = answers[idx];
 
-  const setAnswer = (i: number) => setAnswers((a) => ({ ...a, [q.id]: i }));
+  const setAnswer = (i: number) =>
+  setAnswers((a) => ({ ...a, [idx]: i }));
 
   const submit = () => {
     // TODO: send answers to backend for grading

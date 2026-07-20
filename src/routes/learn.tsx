@@ -28,20 +28,44 @@ function LearnPage() {
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState<typeof mockLearning | null>(null);
 
-  const onExplain = () => {
-    if (!topic.trim()) {
-      toast.error("Please enter a topic first");
-      return;
-    }
-    setLoading(true);
-    setContent(null);
-    // TODO: Replace with real backend API call
-    setTimeout(() => {
-      setContent(mockLearning);
-      setLoading(false);
-    }, 900);
-  };
+ const onExplain = async () => {
+  if (!topic.trim()) {
+  toast.error("Please enter a topic first");
+  return;
+}
 
+setLoading(true);
+setContent(null);
+
+try {
+  const response = await fetch("http://localhost:3000/api/learn", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      topic: topic,
+      level: difficulty,
+    }),
+  });
+
+  const data = await response.json();
+
+  setContent({
+    title: topic,
+    summary: data.explanation,
+    keyPoints: [],
+    examples: [],
+    notes: [],
+  });
+
+} catch (error) {
+  toast.error("Failed to connect to backend");
+  console.error(error);
+} finally {
+  setLoading(false);
+}
+ };
   return (
     <PageShell>
       <div className="mx-auto max-w-3xl text-center">

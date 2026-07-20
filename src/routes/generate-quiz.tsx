@@ -30,19 +30,50 @@ function GenerateQuiz() {
   const [type, setType] = useState("mcq");
   const [loading, setLoading] = useState(false);
 
-  const onGenerate = () => {
-    if (!subject || !topic) {
-      toast.error("Please fill subject and topic");
-      return;
-    }
-    setLoading(true);
-    // TODO: replace with real backend call
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Quiz generated!");
-      navigate({ to: "/quiz" });
-    }, 1200);
-  };
+const onGenerate = async () => {
+  if (!subject || !topic) {
+    toast.error("Please fill subject and topic");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch("http://localhost:3000/api/quiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        subject,
+        topic,
+        difficulty,
+        questions: Number(count),
+        type,
+      }),
+    });
+
+const data = await response.json();
+
+if (!response.ok) {
+  throw new Error(data.error || "Failed to generate quiz");
+}
+
+localStorage.setItem(
+  "generatedQuiz",
+  JSON.stringify(JSON.parse(data.quiz))
+);
+
+toast.success("Quiz generated!");
+
+navigate({ to: "/quiz" });
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to generate quiz");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <PageShell>
