@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Send, Bot, User } from "lucide-react";
+import { Bot, Send, User } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageShell } from "@/components/site/Shared";
@@ -10,10 +11,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/chat")({
   head: () => ({
     meta: [
-      { title: "AI Tutor — QuizGenius AI" },
+      {
+        title: "AI Tutor — BrainBloom AI",
+      },
       {
         name: "description",
-        content: "Chat with your AI tutor about any topic.",
+        content: "Chat with your AI tutor.",
       },
     ],
   }),
@@ -24,17 +27,22 @@ function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const [sending, setSending] = useState(false);
+
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    endRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [messages, typing]);
 
   const send = async (text?: string) => {
     const content = (text ?? input).trim();
 
-    if (!content) return;
+    if (!content || sending) return;
 
+    const assistantId = Date.now() + 1;
     const now = new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -48,10 +56,17 @@ function ChatPage() {
         content,
         time: now,
       },
+      {
+        id: assistantId,
+        role: "assistant",
+        content: "",
+        time: now,
+      },
     ]);
 
     setInput("");
     setTyping(true);
+    setSending(true);
 
     try {
       const response = await fetch("http://localhost:3000/api/chat", {
@@ -64,99 +79,141 @@ function ChatPage() {
         }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Failed to get AI response.");
+      }
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: "assistant",
-          content: data.reply || "No response from AI.",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
+      if (!response.body) {
+        throw new Error("Readable stream not supported.");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let answer = "";
+      let firstChunk = true;
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        if (firstChunk) {
+          setTyping(false);
+          firstChunk = false;
+        }
+
+        const chunk = decoder.decode(value, {
+          stream: true,
+        });
+
+        answer += chunk;
+
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === assistantId
+              ? {
+                  ...msg,
+                  content: answer,
+                }
+              : msg
+          )
+        );
+      }
+
+      setTyping(false);
     } catch (error) {
       console.error(error);
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: "assistant",
-          content: "Unable to connect to the backend.",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
-    } finally {
       setTyping(false);
+
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantId
+            ? {
+                ...msg,
+                content:
+                  "Sorry, I couldn't connect to the AI server. Please try again.",
+              }
+            : msg
+        )
+      );
+    } finally {
+      setSending(false);
     }
   };
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-4">
-          <h1 className="text-2xl font-bold sm:text-3xl">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold tracking-tight">
             AI Tutor
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Ask anything — get instant explanations.
+
+          <p className="mt-2 text-muted-foreground">
+            Ask questions, understand concepts, and learn faster with BrainBloom AI.
           </p>
         </div>
 
         <div
-          className="flex h-[62vh] flex-col rounded-2xl border border-border/60 bg-card"
+          className="flex h-[72vh] flex-col overflow-hidden rounded-3xl border border-border/60 bg-card"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
-          <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
-            {messages.map((m) => (
+          <div className="flex-1 space-y-5 overflow-y-auto p-6">
+            {messages.length === 0 && (
+              <div className="flex flex-wrap gap-2">
+                {suggestedPrompts.map((prompt) => (
+                  <Button
+                    key={prompt}
+                    type="button"
+                    variant="outline"
+                    className="rounded-full"
+                    onClick={() => send(prompt)}
+                  >
+                    {prompt}
+                  </Button>
+                ))}
+              </div>
+            )}
+
+            {messages.map((message) => (
               <div
-                key={m.id}
+                key={message.id}
                 className={cn(
                   "flex gap-3",
-                  m.role === "user" && "flex-row-reverse"
+                  message.role === "user" && "flex-row-reverse"
                 )}
               >
                 <div
                   className={cn(
-                    "grid h-8 w-8 shrink-0 place-items-center rounded-full",
-                    m.role === "user"
+                    "grid h-10 w-10 shrink-0 place-items-center rounded-full",
+                    message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-accent text-accent-foreground"
                   )}
                 >
-                  {m.role === "user" ? (
-                    <User className="h-4 w-4" />
+                  {message.role === "user" ? (
+                    <User className="h-5 w-5" />
                   ) : (
-                    <Bot className="h-4 w-4" />
+                    <Bot className="h-5 w-5" />
                   )}
                 </div>
 
-                <div
-                  className={cn(
-                    "max-w-[80%]",
-                    m.role === "user" && "text-right"
-                  )}
-                >
+                <div className="max-w-[80%]">
                   <div
                     className={cn(
-                      "inline-block rounded-2xl px-4 py-2 text-sm",
-                      m.role === "user"
+                      "rounded-3xl px-5 py-3 text-sm leading-7 shadow-sm",
+                      message.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-secondary text-secondary-foreground"
                     )}
                   >
-                    {m.content}
+                    {message.content}
                   </div>
 
-                  <div className="mt-1 text-[10px] text-muted-foreground">
-                    {m.time}
+                  <div className="mt-1 px-2 text-[11px] text-muted-foreground">
+                    {message.time}
                   </div>
                 </div>
               </div>
@@ -164,14 +221,12 @@ function ChatPage() {
 
             {typing && (
               <div className="flex gap-3">
-                <div className="grid h-8 w-8 place-items-center rounded-full bg-accent">
-                  <Bot className="h-4 w-4" />
+                <div className="grid h-10 w-10 place-items-center rounded-full bg-accent">
+                  <Bot className="h-5 w-5" />
                 </div>
 
-                <div className="inline-flex items-center gap-1 rounded-2xl bg-secondary px-4 py-3">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
+                <div className="rounded-3xl bg-secondary px-5 py-3 text-sm animate-pulse">
+                  AI is typing...
                 </div>
               </div>
             )}
@@ -179,39 +234,47 @@ function ChatPage() {
             <div ref={endRef} />
           </div>
 
-          <div className="border-t border-border/60 p-3">
-            <div className="mb-2 flex flex-wrap gap-2">
-              {suggestedPrompts.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => send(p)}
-                  className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
+                    <div className="border-t border-border/60 bg-background/60 p-4 backdrop-blur">
+            {messages.length > 0 && (
+              <div className="mb-3 flex flex-wrap gap-2">
+                {suggestedPrompts.map((prompt) => (
+                  <Button
+                    key={prompt}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full"
+                    disabled={sending}
+                    onClick={() => send(prompt)}
+                  >
+                    {prompt}
+                  </Button>
+                ))}
+              </div>
+            )}
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                send();
+                void send();
               }}
-              className="flex gap-2"
+              className="flex items-center gap-3"
             >
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question..."
-                className="rounded-full"
+                placeholder="Ask BrainBloom AI anything..."
+                className="h-12 rounded-full"
+                disabled={sending}
               />
 
               <Button
                 type="submit"
                 size="icon"
-                className="rounded-full"
+                className="h-12 w-12 rounded-full"
+                disabled={sending || !input.trim()}
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-5 w-5" />
               </Button>
             </form>
           </div>

@@ -13,9 +13,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EvaluateRouteImport } from './routes/evaluate'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as FlashcardsRouteImport } from './routes/flashcards'
 import { Route as GenerateQuizRouteImport } from './routes/generate-quiz'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PdfChatRouteImport } from './routes/pdf-chat'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as QuizRouteImport } from './routes/quiz'
@@ -43,6 +45,11 @@ const EvaluateRoute = EvaluateRouteImport.update({
   path: '/evaluate',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FlashcardsRoute = FlashcardsRouteImport.update({
   id: '/flashcards',
   path: '/flashcards',
@@ -56,6 +63,11 @@ const GenerateQuizRoute = GenerateQuizRouteImport.update({
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PdfChatRoute = PdfChatRouteImport.update({
@@ -94,9 +106,11 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/evaluate': typeof EvaluateRoute
+  '/explore': typeof ExploreRoute
   '/flashcards': typeof FlashcardsRoute
   '/generate-quiz': typeof GenerateQuizRoute
   '/learn': typeof LearnRoute
+  '/login': typeof LoginRoute
   '/pdf-chat': typeof PdfChatRoute
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
@@ -109,9 +123,11 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/evaluate': typeof EvaluateRoute
+  '/explore': typeof ExploreRoute
   '/flashcards': typeof FlashcardsRoute
   '/generate-quiz': typeof GenerateQuizRoute
   '/learn': typeof LearnRoute
+  '/login': typeof LoginRoute
   '/pdf-chat': typeof PdfChatRoute
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
@@ -125,9 +141,11 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/evaluate': typeof EvaluateRoute
+  '/explore': typeof ExploreRoute
   '/flashcards': typeof FlashcardsRoute
   '/generate-quiz': typeof GenerateQuizRoute
   '/learn': typeof LearnRoute
+  '/login': typeof LoginRoute
   '/pdf-chat': typeof PdfChatRoute
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
@@ -142,9 +160,11 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/evaluate'
+    | '/explore'
     | '/flashcards'
     | '/generate-quiz'
     | '/learn'
+    | '/login'
     | '/pdf-chat'
     | '/planner'
     | '/quiz'
@@ -157,9 +177,11 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/evaluate'
+    | '/explore'
     | '/flashcards'
     | '/generate-quiz'
     | '/learn'
+    | '/login'
     | '/pdf-chat'
     | '/planner'
     | '/quiz'
@@ -172,9 +194,11 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/evaluate'
+    | '/explore'
     | '/flashcards'
     | '/generate-quiz'
     | '/learn'
+    | '/login'
     | '/pdf-chat'
     | '/planner'
     | '/quiz'
@@ -188,9 +212,11 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   DashboardRoute: typeof DashboardRoute
   EvaluateRoute: typeof EvaluateRoute
+  ExploreRoute: typeof ExploreRoute
   FlashcardsRoute: typeof FlashcardsRoute
   GenerateQuizRoute: typeof GenerateQuizRoute
   LearnRoute: typeof LearnRoute
+  LoginRoute: typeof LoginRoute
   PdfChatRoute: typeof PdfChatRoute
   PlannerRoute: typeof PlannerRoute
   QuizRoute: typeof QuizRoute
@@ -229,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvaluateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/flashcards': {
       id: '/flashcards'
       path: '/flashcards'
@@ -248,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pdf-chat': {
@@ -300,9 +340,11 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   DashboardRoute: DashboardRoute,
   EvaluateRoute: EvaluateRoute,
+  ExploreRoute: ExploreRoute,
   FlashcardsRoute: FlashcardsRoute,
   GenerateQuizRoute: GenerateQuizRoute,
   LearnRoute: LearnRoute,
+  LoginRoute: LoginRoute,
   PdfChatRoute: PdfChatRoute,
   PlannerRoute: PlannerRoute,
   QuizRoute: QuizRoute,

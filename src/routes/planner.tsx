@@ -8,8 +8,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/planner")({
   head: () => ({
     meta: [
-      { title: "AI Study Planner — QuizGenius AI" },
-      { name: "description", content: "Generate AI-powered study plans." },
+      { title: "AI Study Planner — BrainBloom AI" },
+      { name: "description", content: "Generate personalized AI-powered study plans with BrainBloom AI.." },
     ],
   }),
   component: PlannerPage,

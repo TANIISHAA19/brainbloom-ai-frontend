@@ -1,155 +1,184 @@
-import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/learn", label: "Learn" },
-  { to: "/chat", label: "AI Chat" },
-  { to: "/generate-quiz", label: "Quiz Generator" },
-  { to: "/flashcards", label: "Flashcards" },
-  { to: "/summarizer", label: "Summarizer" },
-  { to: "/planner", label: "Planner" },
-  { to: "/evaluate", label: "Evaluation" },
-  { to: "/pdf-chat", label: "PDF Chat" },
-];
-
+import { BrainBloomLogo } from "./BrainBloomLogo";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 export function Navbar() {
 
   const [open, setOpen] = useState(false);
 
-
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
+    <nav className="
+      fixed top-4 left-1/2 z-50
+      w-[95%] max-w-6xl
+      -translate-x-1/2
+      rounded-2xl
+      border border-white/40
+      bg-white/80
+      px-5 py-3
+      shadow-lg
+      backdrop-blur-xl
+    ">
 
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+      <div className="flex items-center justify-between">
 
 
         {/* Logo */}
 
-        <Link to="/" className="flex items-center gap-2">
+        <Link
+          to="/"
+          className="flex items-center gap-2"
+        >
 
-          <span
-            className="grid h-9 w-9 place-items-center rounded-xl text-primary-foreground"
-            style={{ background: "var(--gradient-hero)" }}
-          >
-            <Sparkles className="h-5 w-5" />
-          </span>
+          <BrainBloomLogo size={50}/>
 
-
-          <span className="text-lg font-bold tracking-tight">
-            QuizGenius <span className="text-primary">AI</span>
+          <span className="text-xl font-bold text-slate-900">
+            BrainBloom AI
           </span>
 
         </Link>
 
 
 
+        {/* Center Navigation */}
 
-        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-7">
 
-        <nav className="hidden items-center gap-1 lg:flex">
 
-          {links.map((link) => (
+          {/* Features Dropdown */}
 
-            <Link
-              key={link.to}
-              to={link.to}
-              activeOptions={{
-                exact: link.to === "/",
-              }}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              activeProps={{
-                className: "text-primary bg-accent",
-              }}
+          <div className="relative">
+
+            <button
+              onClick={()=>setOpen(!open)}
+              className="
+              flex items-center gap-1
+              text-sm
+              font-medium
+              text-slate-600
+              hover:text-pink-500
+              "
             >
-              {link.label}
-            </Link>
 
-          ))}
+              Features
+
+              <ChevronDown size={16}/>
+
+            </button>
 
 
 
-          <Link to="/generate-quiz" className="ml-2">
+            {open && (
 
-            <Button
-              size="sm"
-              className="rounded-full"
-            >
-              Get Started
-            </Button>
+              <div className="
+              absolute
+              top-8
+              left-0
+              w-56
+              rounded-2xl
+              border
+              bg-white
+              p-3
+              shadow-xl
+              ">
 
+
+                <Link
+                  to="/generate-quiz"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  📝 Quiz Generator
+                </Link>
+
+
+                <Link
+                  to="/flashcards"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  🧠 Flashcards
+                </Link>
+
+
+                <Link
+                  to="/summarizer"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  📄 PDF Summarizer
+                </Link>
+
+
+                <Link
+                  to="/pdf-chat"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  💬 PDF Chat
+                </Link>
+
+
+                <Link
+                  to="/chat"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  🤖 AI Tutor
+                </Link>
+
+
+                <Link
+                  to="/evaluate"
+                  className="block rounded-lg p-2 hover:bg-pink-50"
+                >
+                  ⭐ AI Evaluation
+                </Link>
+
+
+              </div>
+
+            )}
+
+          </div>
+
+
+
+          <Link
+            to="/dashboard"
+            className="
+            text-sm
+            font-medium
+            text-slate-600
+            hover:text-pink-500
+            "
+          >
+            Dashboard
           </Link>
 
 
-        </nav>
+        </div>
 
 
 
 
+        {/* Login */}
 
-        {/* Mobile Menu Button */}
-
-        <button
-          className="rounded-lg p-2 lg:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-label="Toggle menu"
+        <Link
+          to="/login"
+          className="
+          rounded-full
+          bg-gradient-to-r
+          from-pink-500
+          to-purple-600
+          px-5 py-2
+          text-sm
+          font-semibold
+          text-white
+          shadow-md
+          "
         >
-
-          {open ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
-
-        </button>
+          Login / Sign Up
+        </Link>
 
 
       </div>
 
-
-
-
-
-      {/* Mobile Navigation */}
-
-      {open && (
-
-        <div className="border-t border-border/60 bg-background lg:hidden">
-
-          <nav className="mx-auto flex max-w-7xl flex-col p-3">
-
-
-            {links.map((link) => (
-
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                activeProps={{
-                  className: "text-primary bg-accent",
-                }}
-              >
-
-                {link.label}
-
-              </Link>
-
-            ))}
-
-
-          </nav>
-
-        </div>
-
-      )}
-
-
-    </header>
+    </nav>
   );
 }

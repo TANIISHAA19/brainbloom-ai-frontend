@@ -72,14 +72,42 @@ function Dashboard() {
       <div className="text-center">
 
         <h1 className="text-4xl font-bold">
-          Welcome to QuizGenius AI 🚀
+          Welcome to BrainBloom AI 🌸
         </h1>
 
         <p className="mt-3 text-muted-foreground">
-          Your complete AI-powered study workspace.
+          Learn smarter with AI-powered quizzes, flashcards, study planners, PDF tools and your personal AI tutor.
         </p>
 
+      </div>                                      
+                                        
+       {/* Statistics */}
+
+       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+       <div className="rounded-2xl border bg-card p-5 text-center shadow-sm">
+      <h3 className="text-sm text-muted-foreground">Quizzes</h3>
+      <p className="mt-2 text-3xl font-bold">0</p>
+       </div>
+
+       <div className="rounded-2xl border bg-card p-5 text-center shadow-sm">
+      <h3 className="text-sm text-muted-foreground">Flashcards</h3>
+      <p className="mt-2 text-3xl font-bold">0</p>
+       </div>
+
+       <div className="rounded-2xl border bg-card p-5 text-center shadow-sm">
+      <h3 className="text-sm text-muted-foreground">Summaries</h3>
+      <p className="mt-2 text-3xl font-bold">0</p>
       </div>
+
+       <div className="rounded-2xl border bg-card p-5 text-center shadow-sm">
+       <h3 className="text-sm text-muted-foreground">Study Plans</h3>
+        <p className="mt-2 text-3xl font-bold">0</p>
+       </div>
+
+      </div>
+
+     
 
 
 
@@ -96,7 +124,7 @@ function Dashboard() {
             <Link
               key={tool.title}
               to={tool.link}
-              className="rounded-2xl border border-border/60 bg-card p-6 transition hover:-translate-y-1 hover:shadow-lg"
+              className="rounded-2xl border border-border/60 bg-card p-6 transition hover:-translate-y-2 hover:shadow-2xl"
             >
 
               <div className="grid h-12 w-12 place-items-center rounded-xl text-primary-foreground"
@@ -126,6 +154,45 @@ function Dashboard() {
 
 
       </section>
+
+
+
+              {/* Continue Learning */}
+
+       <div className="mt-10 rounded-2xl border bg-card p-6 shadow-sm">
+
+      <h2 className="text-2xl font-bold">
+      Continue Learning
+      </h2>
+
+        <p className="mt-2 text-muted-foreground">
+      Jump back into your AI Tutor and continue your study journey.
+      </p>
+
+      <Link
+      to="/chat"
+      className="mt-5 inline-block rounded-full bg-primary px-6 py-3 text-primary-foreground"
+       >
+     Resume AI Tutor →
+     </Link>
+
+     </div>
+
+
+
+             {/* Motivation */}
+
+      <div className="mt-8 rounded-2xl border bg-card p-6 shadow-sm">
+
+    <h2 className="text-xl font-bold">
+    💡 Daily Motivation
+     </h2>
+
+      <p className="mt-3 italic text-muted-foreground">
+    "Small progress every day leads to big success."
+      </p>
+
+     </div>
 
 
     </PageShell>
