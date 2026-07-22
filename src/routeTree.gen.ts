@@ -22,6 +22,7 @@ import { Route as PdfChatRouteImport } from './routes/pdf-chat'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ResultsRouteImport } from './routes/results'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SummarizerRouteImport } from './routes/summarizer'
 
@@ -90,6 +91,11 @@ const ResultsRoute = ResultsRouteImport.update({
   path: '/results',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
   '/results': typeof ResultsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/summarizer': typeof SummarizerRoute
 }
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
   '/results': typeof ResultsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/summarizer': typeof SummarizerRoute
 }
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/planner': typeof PlannerRoute
   '/quiz': typeof QuizRoute
   '/results': typeof ResultsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/summarizer': typeof SummarizerRoute
 }
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/planner'
     | '/quiz'
     | '/results'
+    | '/signup'
     | '/sitemap.xml'
     | '/summarizer'
   fileRoutesByTo: FileRoutesByTo
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/planner'
     | '/quiz'
     | '/results'
+    | '/signup'
     | '/sitemap.xml'
     | '/summarizer'
   id:
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/planner'
     | '/quiz'
     | '/results'
+    | '/signup'
     | '/sitemap.xml'
     | '/summarizer'
   fileRoutesById: FileRoutesById
@@ -221,6 +233,7 @@ export interface RootRouteChildren {
   PlannerRoute: typeof PlannerRoute
   QuizRoute: typeof QuizRoute
   ResultsRoute: typeof ResultsRoute
+  SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SummarizerRoute: typeof SummarizerRoute
 }
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResultsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -349,6 +369,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlannerRoute: PlannerRoute,
   QuizRoute: QuizRoute,
   ResultsRoute: ResultsRoute,
+  SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SummarizerRoute: SummarizerRoute,
 }

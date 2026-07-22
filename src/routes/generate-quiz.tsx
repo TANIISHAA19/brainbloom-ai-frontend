@@ -39,10 +39,13 @@ const onGenerate = async () => {
   setLoading(true);
 
   try {
-    const response = await fetch("http://localhost:3000/api/quiz", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+       const token = localStorage.getItem("token");
+
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/quiz`, {
+        method: "POST",
+         headers: {
+       "Content-Type": "application/json",
+       Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         subject,
@@ -61,8 +64,9 @@ if (!response.ok) {
 
 localStorage.setItem(
   "generatedQuiz",
-  JSON.stringify(JSON.parse(data.quiz))
+  JSON.stringify(data.quiz)
 );
+
 
 toast.success("Quiz generated!");
 

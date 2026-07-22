@@ -70,7 +70,7 @@ function PDFChatPage() {
 
 
       const response = await fetch(
-        "http://localhost:3000/api/pdf-chat",
+        "fetch(`${import.meta.env.VITE_API_URL}/api/pdf-chat",
         {
           method: "POST",
           body: formData,

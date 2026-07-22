@@ -35,7 +35,7 @@ function EvaluatePage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/evaluate",
+        `${import.meta.env.VITE_API_URL}/api/evaluate`,
         {
           method: "POST",
           headers: {

@@ -62,17 +62,24 @@ if (mode === "upload") {
 
     formData.append("pdf", file);
 
+   const token = localStorage.getItem("token");
 
-    const response = await fetch(
-      "http://localhost:3000/api/flashcards/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
+         const response = await fetch(
+       "fetch(`${import.meta.env.VITE_API_URL}/api/flashcards/upload",
+     {
+    method: "POST",
+
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+
+    body: formData,
+   }
     );
 
 
     const data = await response.json();
+    localStorage.setItem("token", data.token);
 
 
     if (!response.ok) {
@@ -126,21 +133,23 @@ if (mode === "upload") {
 
     try {
 
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
-        "http://localhost:3000/api/flashcards",
-        {
-          method: "POST",
+      "fetch(`${import.meta.env.VITE_API_URL}/api/flashcards",
+      {
+       method: "POST",
 
-          headers: {
-            "Content-Type": "application/json",
-          },
+       headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      },
 
-          body: JSON.stringify({
-            topic,
-          }),
-        }
-      );
-
+       body: JSON.stringify({
+        topic,
+       }),
+       }
+       );
 
 
       const data = await response.json();

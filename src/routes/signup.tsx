@@ -2,20 +2,21 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Brain } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/login")({
-  component: LoginPage,
+export const Route = createFileRoute("/signup")({
+  component: SignupPage,
 });
 
-function LoginPage() {
+function SignupPage() {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleLogin(e: React.FormEvent) {
+  async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
 
     setLoading(true);
@@ -23,13 +24,14 @@ function LoginPage() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        `${import.meta.env.VITE_API_URL}/api/auth/signup`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            name,
             email,
             password,
           }),
@@ -37,35 +39,34 @@ function LoginPage() {
       );
 
       const data = await response.json();
-      console.log("Login response:", data);
-      console.log("Token:", data.token);
+      console.log("SIGNUP RESPONSE:", data);
+      alert(JSON.stringify(data));
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Login failed"
+          data.message || "Signup failed"
         );
       }
 
+      // Save token if backend returns it
+      if (data.token) {
+        localStorage.setItem(
+          "token",
+          data.token
+        );
+      }
 
-      // Save JWT token
-      localStorage.setItem(
-        "token",
-        data.token
-      );
+      // Save user if backend returns it
+      if (data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+      }
 
-
-      // Save user data
-      localStorage.setItem(
-        "user",
-        JSON.stringify(data.user)
-      );
-
-
-      // Redirect to dashboard
       navigate({
         to: "/dashboard",
       });
-
 
     } catch (err: any) {
 
@@ -95,19 +96,30 @@ function LoginPage() {
 
 
         <h1 className="text-3xl font-bold text-center">
-          Welcome to BrainBloom
+          Join BrainBloom
         </h1>
 
 
         <p className="text-center text-gray-500 mt-2">
-          Login to continue your AI learning journey
+          Create your AI learning account
         </p>
 
 
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSignup}
           className="mt-8 space-y-4"
         >
+
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-purple-400"
+            required
+          />
 
 
           <input
@@ -156,22 +168,21 @@ function LoginPage() {
               disabled:opacity-60
             "
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
-
 
         </form>
 
 
         <p className="mt-6 text-center text-sm text-gray-500">
 
-          New user?{" "}
+          Already have an account?{" "}
 
           <Link
-            to="/signup"
+            to="/login"
             className="text-purple-600 font-semibold"
           >
-            Create an account
+            Login
           </Link>
 
         </p>
