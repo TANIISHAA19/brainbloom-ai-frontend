@@ -1,5 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CalendarDays } from "lucide-react";
+import { useState } from "react";
+import LoginModal from "@/components/auth/LoginModal";
 import {
   Brain,
   ClipboardCheck,
@@ -60,13 +62,23 @@ const features = [
 export default function FeatureTokens() {
 
   const navigate = useNavigate();
+  const [selectedRoute, setSelectedRoute] = useState("");
+const [showLoginModal, setShowLoginModal] = useState(false);
   const handleFeatureClick = (route:string) => {
 
     // Login popup will be added here next
 
-    navigate({ to: route });
+     setSelectedRoute(route);
+     setShowLoginModal(true);
 
-  };
+  };        
+     const continueAsGuest = () => {
+     setShowLoginModal(false);
+
+       navigate({
+      to: selectedRoute,
+      });
+    };
 
 
   return (
@@ -147,6 +159,7 @@ export default function FeatureTokens() {
                 hover:-translate-y-2
                 hover:shadow-xl
                 "
+                
               >
 
                 <div className="
@@ -207,6 +220,13 @@ export default function FeatureTokens() {
 
 
       </div>
+
+
+      <LoginModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onGuest={continueAsGuest}
+      />
 
 
     </section>
