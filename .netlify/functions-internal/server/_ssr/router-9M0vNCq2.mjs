@@ -392,7 +392,6 @@ var tools = [
 ];
 function Dashboard() {
 	console.log("🚀 Dashboard component rendered");
-	alert("Dashboard loaded");
 	const navigate = useNavigate();
 	const [stats, setStats] = (0, import_react.useState)({
 		quizCount: 0,

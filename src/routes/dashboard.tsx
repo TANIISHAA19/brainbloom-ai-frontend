@@ -63,7 +63,6 @@ const tools = [
 
 function Dashboard() {   
   console.log("🚀 Dashboard component rendered");
-   alert("Dashboard loaded");
   const navigate = useNavigate();
 
   const [stats, setStats] = useState({
