@@ -13,7 +13,7 @@ export function Footer() {
             >
               <Sparkles className="h-5 w-5" />
             </span>
-            <span className="text-lg font-bold">QuizGenius AI</span>
+            <span className="text-lg font-bold">BrainBloom AI</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
             Learn smarter with AI-powered lessons, quizzes, and tutoring.

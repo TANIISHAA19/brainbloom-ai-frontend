@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/generate-quiz")({
   head: () => ({
     meta: [
-      { title: "Generate Quiz — QuizGenius AI" },
+      { title: "Generate Quiz — BrainBloom AI" },
       { name: "description", content: "Create custom quizzes powered by AI in seconds." },
     ],
   }),

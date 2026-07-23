@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/quiz")({
   head: () => ({
     meta: [
-      { title: "Quiz — QuizGenius AI" },
+      { title: "Quiz — BrainBloom AI" },
       { name: "description", content: "Take your AI-generated quiz." },
     ],
   }),

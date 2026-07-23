@@ -7,7 +7,7 @@ import { PageShell } from "@/components/site/Shared";
 export const Route = createFileRoute("/results")({
   head: () => ({
     meta: [
-      { title: "Results — QuizGenius AI" },
+      { title: "Results — BrainBloom AI" },
       { name: "description", content: "See your quiz results and review answers." },
     ],
   }),

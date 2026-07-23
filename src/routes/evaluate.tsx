@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/evaluate")({
   head: () => ({
     meta: [
-      { title: "AI Answer Evaluation — QuizGenius AI" },
+      { title: "AI Answer Evaluation — BrainBloom AI" },
       { name: "description", content: "Evaluate answers using AI." },
     ],
   }),

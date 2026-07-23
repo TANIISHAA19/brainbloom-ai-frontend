@@ -7,7 +7,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/summarizer")({
   head: () => ({
     meta: [
-      { title: "PDF Summarizer — QuizGenius AI" },
+      { title: "PDF Summarizer — BrainBloom AI" },
       { name: "description", content: "Summarize study PDFs using AI." },
     ],
   }),

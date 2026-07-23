@@ -80,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "QuizGenius AI — Learn Smarter with AI" },
+      { title: "BrainBloom AI— Learn Smarter with AI" },
       { name: "description", content: "Generate personalized lessons, quizzes, and explanations instantly with AI." },
-      { name: "author", content: "QuizGenius AI" },
-      { property: "og:title", content: "QuizGenius AI — Learn Smarter with AI" },
+      { name: "author", content: "BrainBloom AI" },
+      { property: "og:title", content: "BrainBloom AI — Learn Smarter with AI" },
       { property: "og:description", content: "Generate personalized lessons, quizzes, and explanations instantly with AI." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

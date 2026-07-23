@@ -117,7 +117,7 @@ function Footer() {
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "h-5 w-5" })
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "text-lg font-bold",
-						children: "QuizGenius AI"
+						children: "BrainBloom AI"
 					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-3 text-sm text-muted-foreground",
@@ -174,7 +174,7 @@ function Footer() {
 			children: [
 				"© ",
 				(/* @__PURE__ */ new Date()).getFullYear(),
-				" QuizGenius AI. All rights reserved."
+				" BrainBloom AI. All rights reserved."
 			]
 		})]
 	});
@@ -267,18 +267,18 @@ var Route$16 = createRootRouteWithContext()({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1"
 			},
-			{ title: "QuizGenius AI — Learn Smarter with AI" },
+			{ title: "BrainBloom AI — Learn Smarter with AI" },
 			{
 				name: "description",
 				content: "Generate personalized lessons, quizzes, and explanations instantly with AI."
 			},
 			{
 				name: "author",
-				content: "QuizGenius AI"
+				content: "BrainBloom AI"
 			},
 			{
 				property: "og:title",
-				content: "QuizGenius AI — Learn Smarter with AI"
+				content: "BrainBloom AI — Learn Smarter with AI"
 			},
 			{
 				property: "og:description",
@@ -536,7 +536,7 @@ function Dashboard() {
 }
 var $$splitComponentImporter$11 = () => import("./evaluate-CncqSjM_.mjs");
 var Route$12 = createFileRoute("/evaluate")({
-	head: () => ({ meta: [{ title: "AI Answer Evaluation — QuizGenius AI" }, {
+	head: () => ({ meta: [{ title: "AI Answer Evaluation — BrainBloom AI" }, {
 		name: "description",
 		content: "Evaluate answers using AI."
 	}] }),
@@ -554,7 +554,7 @@ var Route$10 = createFileRoute("/flashcards")({
 });
 var $$splitComponentImporter$8 = () => import("./generate-quiz-BeH2lfoO.mjs");
 var Route$9 = createFileRoute("/generate-quiz")({
-	head: () => ({ meta: [{ title: "Generate Quiz — QuizGenius AI" }, {
+	head: () => ({ meta: [{ title: "Generate Quiz — BrainBloom AI" }, {
 		name: "description",
 		content: "Create custom quizzes powered by AI in seconds."
 	}] }),
@@ -582,7 +582,7 @@ var Route$5 = createFileRoute("/planner")({
 });
 var $$splitComponentImporter$3 = () => import("./quiz-Ck5rrNYD.mjs");
 var Route$4 = createFileRoute("/quiz")({
-	head: () => ({ meta: [{ title: "Quiz — QuizGenius AI" }, {
+	head: () => ({ meta: [{ title: "Quiz — BrainBloom AI" }, {
 		name: "description",
 		content: "Take your AI-generated quiz."
 	}] }),
@@ -590,7 +590,7 @@ var Route$4 = createFileRoute("/quiz")({
 });
 var $$splitComponentImporter$2 = () => import("./results-30gkEytx.mjs");
 var Route$3 = createFileRoute("/results")({
-	head: () => ({ meta: [{ title: "Results — QuizGenius AI" }, {
+	head: () => ({ meta: [{ title: "Results — BrainBloom AI" }, {
 		name: "description",
 		content: "See your quiz results and review answers."
 	}] }),
@@ -615,7 +615,7 @@ var Route$1 = createFileRoute("/sitemap.xml")({ server: { handlers: { GET: async
 } } } });
 var $$splitComponentImporter = () => import("./summarizer-VR9vbY3J.mjs");
 var Route = createFileRoute("/summarizer")({
-	head: () => ({ meta: [{ title: "PDF Summarizer — QuizGenius AI" }, {
+	head: () => ({ meta: [{ title: "PDF Summarizer — BrainBloom AI" }, {
 		name: "description",
 		content: "Summarize study PDFs using AI."
 	}] }),
